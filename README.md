@@ -2,6 +2,4 @@
 
 #### Merry Christmas!
 
-##### Youtube video
-
-{{< youtube OBN6p-YRsq0 >}}
+[#### Youtube video](https://youtu.be/OBN6p-YRsq0)
