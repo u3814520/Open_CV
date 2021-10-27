@@ -9,7 +9,7 @@ width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))  # 取得畫面尺寸
 height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 detector = dlib.get_frontal_face_detector()  # Dlib 的人臉偵測器
 
-fgbg = cv2.bgsegm.createBackgroundSubtractorMOG(history=150, nmixtures=5, backgroundRatio=0.7)  # try history = 1
+fgbg = cv2.bgsegm.createBackgroundSubtractorMOG(history=150, nmixtures=5, backgroundRatio=0.7)
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # XVID MJPG
 out = cv2.VideoWriter('./video/hw.mp4', 0x00000021, 23.98, (width, height))
 
@@ -18,10 +18,8 @@ while (1):  # MOG
     if not ret:
         break
     if ret:
-        r2 = fgbg.apply(frame)  # fgbg
+        r2 = fgbg.apply(frame)
         text = 'MOG'
-        # text2 = 'Merry Christmas!'
-        # cv2.putText(r2, text2, (100, 600),cv2.FONT_HERSHEY_SCRIPT_COMPLEX, 2, (255, 0, 0), 4, cv2.LINE_AA)
         cv2.putText(r2, text, (100, 240), cv2.FONT_HERSHEY_COMPLEX_SMALL, 3, (255, 0, 0), 4, cv2.LINE_AA)
         cv2.imshow('hw', r2)
         out.write(r2)
@@ -72,7 +70,7 @@ while (1):  # 人臉辨識
 
             cv2.rectangle(r2, (x1, y1), (x2, y2), (0, 255, 0), 4, cv2.LINE_AA)  # 以方框標示偵測的人臉
             cv2.putText(r2, text, (x1, y1), cv2.FONT_HERSHEY_DUPLEX, 0.7, (255, 255, 255), 1, cv2.LINE_AA)  # 標示分數
-        cv2.imshow('hw', r2)  # 顯示結果
+        cv2.imshow('hw', r2)
         out.write(r2)
         k = cv2.waitKey(80) & 0xff
         if 10950 <= int(cap.get(cv2.CAP_PROP_POS_MSEC)) < 11100:
@@ -82,7 +80,7 @@ while (1):  # 人臉辨識
     else:
         break
 
-while (1):  #Sobel
+while (1):  # Sobel
     ret, r2 = cap.read()
     if not ret:
         break
@@ -91,22 +89,21 @@ while (1):  #Sobel
         text2 = 'Merry Christmas!'
         cv2.putText(r2, text2, (100, 600), cv2.FONT_HERSHEY_SCRIPT_COMPLEX, 2, (0, 255, 255), 4, cv2.LINE_AA)
         cv2.putText(r2, text, (100, 240), cv2.FONT_HERSHEY_COMPLEX_SMALL, 3, (0, 255, 255), 4, cv2.LINE_AA)
-        x_grad = cv2.Sobel(r2,cv2.CV_32F, 1, 0)
-        y_grad = cv2.Sobel(r2,cv2.CV_32F, 0, 1)
+        x_grad = cv2.Sobel(r2, cv2.CV_32F, 1, 0)
+        y_grad = cv2.Sobel(r2, cv2.CV_32F, 0, 1)
         x_grad = cv2.convertScaleAbs(x_grad)
         y_grad = cv2.convertScaleAbs(y_grad)
         r2 = cv2.add(x_grad, y_grad, dtype=cv2.CV_16S)
         r2 = cv2.convertScaleAbs(r2)
-        cv2.imshow('hw',r2)
+        cv2.imshow('hw', r2)
         out.write(r2)
-        k= cv2.waitKey(80) & 0xff
+        k = cv2.waitKey(80) & 0xff
     if 15000 <= int(cap.get(cv2.CAP_PROP_POS_MSEC)) < 15100:
         break
     if k == 27:
         break
 
-
-while (1): # GRAY
+while (1):  # GRAY
     ret, frame = cap.read()
     r2 = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     if ret:
@@ -116,7 +113,25 @@ while (1): # GRAY
         cv2.putText(r2, text, (100, 240), cv2.FONT_HERSHEY_COMPLEX_SMALL, 3, (0, 0, 0), 4, cv2.LINE_AA)
         cv2.imshow('hw', r2)
         out.write(r2)
-        k= cv2.waitKey(80) & 0xff
+        k = cv2.waitKey(80) & 0xff
+        if 16700 <= int(cap.get(cv2.CAP_PROP_POS_MSEC)) < 16850:
+            break
+        if k == 27:
+            break
+    else:
+        break
+
+while (1):  # BGR
+    ret, frame = cap.read()
+    if ret:
+        r2 = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        text = 'BGR'
+        text2 = 'Merry Christmas!'
+        cv2.putText(r2, text2, (100, 600), cv2.FONT_HERSHEY_SCRIPT_COMPLEX, 2, (255, 0, 0), 4, cv2.LINE_AA)
+        cv2.putText(r2, text, (100, 240), cv2.FONT_HERSHEY_COMPLEX_SMALL, 3, (255, 0, 0), 4, cv2.LINE_AA)
+        cv2.imshow('hw', r2)
+        out.write(r2)
+        k = cv2.waitKey(80) & 0xff
         if 20000 <= int(cap.get(cv2.CAP_PROP_POS_MSEC)) < 20150:
             break
         if k == 27:
